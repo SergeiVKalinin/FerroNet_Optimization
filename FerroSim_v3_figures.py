@@ -126,7 +126,7 @@ def figure04_waveform_histories(ctx,history_steps=40):
             if g.empty:continue
             g=g.sort_values("evaluation")
             checkpoints=np.unique(np.linspace(0,len(g)-1,min(history_steps,len(g)),dtype=int))
-            best=g.reward.to_numpy(); idx=np.maximum.accumulate(np.arange(len(g))*0+0) # overwritten below
+            best=g.reward.to_numpy()
             idx=[]; incumbent=-np.inf;winner=0
             for i,y in enumerate(best):
                 if y>incumbent:incumbent=y;winner=i
@@ -243,16 +243,12 @@ def figure11_18_ensemble(ctx):
         print("F11–F18 skipped: N=1 cannot estimate disorder variability or cross-disorder generalization.")
         return
     df=ctx["data"];valid=_valid(df);methods=ctx["methods"];out=ctx["figdir"]
-    runbest=valid.groupby(["map","method_key","seed"],as_index=False).apply(
-        lambda g:g.loc[g.reward.idxmax()],include_groups=False).reset_index(drop=True)
-    # pandas versions differ in groupby.apply output; recover keys if omitted.
-    if "map" not in runbest:
-        runbest=valid.sort_values("reward").groupby(["map","method_key","seed"],as_index=False).tail(1)
+    runbest=valid.sort_values("reward").groupby(["map","method_key","seed"],sort=False).tail(1).copy()
     # F11: one observation per disorder per method, averaging optimizer seeds.
     means=runbest.groupby(["map","method_key"],as_index=False).reward.mean()
     fig,ax=plt.subplots(figsize=(10,4.5))
     vals=[means[means.method_key==m].reward.to_numpy() for m in methods]
-    ax.boxplot(vals,tick_labels=methods,showmeans=True);ax.tick_params(axis="x",rotation=30)
+    ax.boxplot(vals,showmeans=True);ax.set_xticks(np.arange(1,len(methods)+1),methods,rotation=30)
     ax.set(ylabel="Best measured reward",title="F11 — Per-disorder best reward (averaged over seeds)")
     ax.grid(alpha=.2);_save(fig,out,"F11_reward_distributions.png")
     # F12 paired difference on the SAME disorder maps, against GA where present.
