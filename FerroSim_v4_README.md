@@ -1,6 +1,6 @@
 # FerroSim v4 — Legendre Try analytics and texture evolution
 
-The five new v4 notebooks are based on the latest Legendre Try statistical-analysis workflow and add the same physical texture history to each control representation.
+The five original v4 notebooks and the new direct-waveform sixth approach are based on the latest Legendre Try statistical-analysis workflow and add the same physical texture history to each control representation.
 
 | Representation | Standalone notebook | Control description |
 |---|---|---|
@@ -9,12 +9,13 @@ The five new v4 notebooks are based on the latest Legendre Try statistical-analy
 | Spline | [FerroSim_Spline_v4.ipynb](Spline/FerroSim_Spline_v4.ipynb) | 32 interior cubic B-spline coordinates |
 | Segments | [FerroSim_Segments_v4.ipynb](Segments/FerroSim_Segments_v4.ipynb) | Variable-length piecewise-linear field segments |
 | Grammar | [FerroSim_Grammar_v4.ipynb](Grammar/FerroSim_Grammar_v4.ipynb) | Variable-length programs made of physical operations |
+| Direct Waveform | [FerroSim_Direct_Waveform_v4.ipynb](Direct_Waveform/FerroSim_Direct_Waveform_v4.ipynb) | Direct 900-sample electric-field genome; three pure GA arms |
 
 The original v3 notebooks remain available. Legendre Try itself was not overwritten.
 
 ## Scientific goal
 
-Find time-dependent electric-field controls that maximize the terminal sum of absolute curl on the 20×20 FerroSim polarization lattice. The optimization reward is unchanged in v4. Fourier, Legendre and Spline use GA–DKL, trained GFlowNet–DKL, guided diffusion–DKL and QD–DKL. Segments uses GA/QD and two *heuristic* sequential/denoising-inspired methods; Grammar compares simple/full operation vocabularies with GA/QD. Statistical figures and physical outputs are standardized, but these methods are not algorithmically identical.
+Find time-dependent electric-field controls that maximize the terminal sum of absolute curl on the 20×20 FerroSim polarization lattice. The optimization reward is unchanged in v4. Fourier, Legendre and Spline use GA–DKL, trained GFlowNet–DKL, guided diffusion–DKL and QD–DKL. Direct Waveform compares hard crossover, smooth crossover, and mutation-only pure GAs on 900 physical field samples, without DKL; no new jump metrics are introduced. Segments uses GA/QD and two *heuristic* sequential/denoising-inspired methods; Grammar compares simple/full operation vocabularies with GA/QD. Statistical figures and physical outputs are standardized, but these methods are not algorithmically identical.
 
 The disorder ensemble consists of the original 19-site reference defect map plus reproducible *spatial rearrangements* of those same defect vectors; it does not sample new defect-strength distributions.
 
@@ -38,7 +39,7 @@ All control representations receive 32 new attempted physical queries per genera
 
 ## Statistical analysis inherited from Legendre Try
 
-All five notebooks preserve the same general section order and produce:
+All six notebooks preserve the same general section order and produce (surrogate calibration is not applicable to Direct Waveform):
 
 1. Experiment configuration, reference defects, representation invariants and a disorder manifest.
 2. Recorded oracle histories, valid/invalid trials, source fingerprints and physical query budget.
@@ -84,7 +85,7 @@ Outputs are under FerroSim_REPRESENTATION_v4/experiments/SOURCE_AND_CONFIG_HASH/
 
 ## Editable shared source
 
-The following repository files are embedded verbatim into all five notebooks:
+The following repository modules are embedded into the five original notebooks and adapted with the same statistical/texture interfaces for Direct Waveform:
 
 - [FerroSim_v4_common.py](FerroSim_v4_common.py): common history loaders, measured plotting and selected-control exports
 - [FerroSim_v4_advanced_analysis.py](FerroSim_v4_advanced_analysis.py): harmonized Legendre Try statistics
