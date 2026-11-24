@@ -1,11 +1,11 @@
 # FerroSim v3 — unified Anaconda notebook suite
 
 ## Five new notebooks
-- [Fourier/FerroSim_Fourier_v3.ipynb](Fourier/FerroSim_Fourier_v3.ipynb)
-- [Legendre/FerroSim_Legendre_v3.ipynb](Legendre/FerroSim_Legendre_v3.ipynb)
-- [Spline/FerroSim_Spline_v3.ipynb](Spline/FerroSim_Spline_v3.ipynb)
-- [Segments/FerroSim_Segments_v3.ipynb](Segments/FerroSim_Segments_v3.ipynb)
-- [Grammar/FerroSim_Grammar_v3.ipynb](Grammar/FerroSim_Grammar_v3.ipynb)
+- [Fourier/iterations/FerroSim_Fourier_v3.ipynb](Fourier/iterations/FerroSim_Fourier_v3.ipynb)
+- [Legendre/iterations/FerroSim_Legendre_v3.ipynb](Legendre/iterations/FerroSim_Legendre_v3.ipynb)
+- [Spline/iterations/FerroSim_Spline_v3.ipynb](Spline/iterations/FerroSim_Spline_v3.ipynb)
+- [Segments/iterations/FerroSim_Segments_v3.ipynb](Segments/iterations/FerroSim_Segments_v3.ipynb)
+- [Grammar/iterations/FerroSim_Grammar_v3.ipynb](Grammar/iterations/FerroSim_Grammar_v3.ipynb)
 
 The original notebooks are preserved. **These v3 notebooks have undergone a source-level and structural audit, but complete physical experiments have not been executed or benchmarked as part of this GitHub update.** Run the QUICK configuration on a clean Anaconda Jupyter kernel before scheduling expensive FULL campaigns. The notebooks contain no precomputed physical optimization results.
 
