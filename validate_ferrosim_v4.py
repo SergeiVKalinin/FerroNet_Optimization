@@ -1,4 +1,4 @@
-"""Execute FerroSim v4 notebooks in isolated, small Anaconda/Jupyter kernels.
+"""Execute all six FerroSim v4 notebooks in isolated, small Anaconda/Jupyter kernels.
 
 Usage (with NumPy, pandas, SciPy, Matplotlib, Numba, PyTorch, nbformat and
 nbclient installed):
@@ -28,6 +28,7 @@ NOTEBOOKS={
     "Spline":"Spline/FerroSim_Spline_v4.ipynb",
     "Segments":"Segments/FerroSim_Segments_v4.ipynb",
     "Grammar":"Grammar/FerroSim_Grammar_v4.ipynb",
+    "Direct_Waveform":"Direct_Waveform/FerroSim_Direct_Waveform_v4.ipynb",
 }
 CONTROLS={
     "MODE":'"QUICK"',
