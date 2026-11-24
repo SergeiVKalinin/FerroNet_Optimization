@@ -1,5 +1,22 @@
 # Program grammar: physically interpretable operation sequences
 
+## Latest version: v4 — Legendre Try analytics + physical texture evolution
+
+**Recommended notebook:** [FerroSim_Grammar_v4.ipynb](FerroSim_Grammar_v4.ipynb). The v3 notebook documented below remains available, but v4 is the newest comparison workflow.
+
+The v4 notebook follows the **latest Legendre Try full-analysis order** for configuration, physical evaluation accounting, optimizer convergence, exact reward-target attainment, measured reward–complexity Pareto fronts, per-disorder best/simple waveforms, complexity-retention statistics, method attribution, DKL calibration, paired disorder statistics, optional transfer, and higher-fidelity physical validation.
+
+**New texture analysis:** for each disorder × optimizer × seed, save the final polarization state at every distinct best-so-far reward improvement. Every generation remains indexed; unchanged winners reuse the existing archived state. The saved arrays contain Px, Py, signed and absolute curl, and the driving waveform. Identical T1–T4 figures in all five representations show (T1) physical state snapshots at reward improvements, (T2) curl localization/high-curl area/polarization change/correlation length versus generation, (T3) texture descriptors versus reward, and (T4) PCA of the resulting polarization states.
+
+The v4 first code cell supports QUICK/FULL, arbitrary positive N_DISORDERS, a list of optimizer SEEDS, INITIAL_CONTROLS ≥2, GENERATIONS ≥0, and independent flags for transfer, validation, and texture analysis. QUICK and FULL both use RK4 with the same subdivision cap; only training/search budgets differ.
+
+**Verification:** GitHub upload and source/structure checks are complete. Full execution in a fresh Anaconda environment and a completed N=20 FULL numerical campaign have **not** yet been independently verified. Start with N_DISORDERS=1 and a short experiment.
+
+See [v4 suite guide](../FerroSim_v4_README.md) for complete environment, figure and file-format specifications. The five notebooks share analysis/statistics/texture code, but the original Segments and Grammar proposer definitions remain different from the three modal methods.
+
+---
+
+
 > **FerroNet Optimization — Grammar branch.** Read this before running `FerroSim_Grammar_v3.ipynb`. This README documents the research objective, implementation, figures, and open validation requirements; it does not report simulation results that have not been measured.
 
 ## The common FerroSim scientific experiment
