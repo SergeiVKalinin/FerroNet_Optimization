@@ -87,9 +87,11 @@ def records(waves,result,mapname,method,seed,generation,offset,ops,selection,par
             "predicted_mean":np.nan,"predicted_std":np.nan})
     return out
 
-def tournament(waves,rewards,rng):
+def tournament(waves,rewards,rng,avoid=None):
     eligible=np.flatnonzero(np.isfinite(rewards))
     if not len(eligible):raise RuntimeError("No physically valid parents available for GA")
+    if avoid is not None and len(eligible)>1:
+        eligible=eligible[eligible!=int(avoid)-1]
     chosen=rng.choice(eligible,size=3,replace=len(eligible)<3)
     index=int(chosen[np.argmax(rewards[chosen])])
     return waves[index],index+1
@@ -133,7 +135,7 @@ def run_one(out,mapname,defects,method,seed,initial_count,generations,batch,run_
         new=[];ops=[];parent_ids=[]
         for _ in range(batch):
             a,aid=tournament(waves,reward,rng)
-            b,bid=tournament(waves,reward,rng)
+            b,bid=tournament(waves,reward,rng,avoid=aid if method!="Mutation-Only-GA" else None)
             child,op=proposed_child(method,a,b,rng)
             new.append(child);ops.append(op)
             parent_ids.append((aid,bid if "crossover" in op else 0))
