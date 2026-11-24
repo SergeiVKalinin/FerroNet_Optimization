@@ -76,7 +76,9 @@ def load_histories(root,representation):
                         ("substeps",0),("rhs_calls",0),("selection_source","not_recorded"),
                         ("proposal_source","not_recorded")):
         if key not in df:df[key]=default
-    df["valid"]=df["valid"].astype(bool)
+    if df["valid"].dtype==object:
+        df["valid"]=df["valid"].astype(str).str.strip().str.lower().eq("true")
+    else:df["valid"]=df["valid"].astype(bool)
     df["method"]=df["method"].astype(str)
     if not set(df.method).issubset(set(METHODS)):
         raise ValueError("Unexpected method labels "+str(set(df.method)-set(METHODS)))
@@ -276,3 +278,29 @@ def plot_all_disorder_pareto(df,maps,figures):
         ax.axis("on");ax.set(title=mid,xlabel="Resolved turns",ylabel="Curl");ax.grid(alpha=.2)
     if len(maps)<=4:axs.flat[0].legend(fontsize=6)
     _save(fig,Path(figures)/"13_all_disorder_pareto_montage.png")
+
+
+def write_selected(df,tables):
+    """Save physically evaluated winners and low-turn alternatives, for every disorder."""
+    tables=Path(tables)
+    selected=tables/"selected_controls";selected.mkdir(parents=True,exist_ok=True)
+    rows=[]
+    for mid,g in valid(df).groupby("map"):
+        champion=g.loc[g.reward.idxmax()]
+        simple=g[g.complexity<=1]
+        picks=[("best",champion)]
+        if len(simple):picks.append(("simple",simple.loc[simple.reward.idxmax()]))
+        for label,row in picks:
+            wave=np.asarray(fields(row.coefficients,n=900),float).reshape(-1)
+            fname=("".join(q if q.isalnum() or q in "-_" else "_" for q in str(mid))+"__"+label+".npz")
+            np.savez_compressed(selected/fname,
+                coordinates=np.asarray(row.coefficients,float),waveform_Ec=wave,
+                measured_reward=float(row.reward),generation=int(row.generation),
+                evaluation=int(row.evaluation),seed=int(row.seed))
+            rows.append(dict(map=mid,kind=label,method=row.method,seed=int(row.seed),
+                             evaluation=int(row.evaluation),generation=int(row.generation),
+                             reward=float(row.reward),complexity=int(row.complexity),
+                             waveform_file=str(Path("selected_controls")/fname)))
+    result=pd.DataFrame(rows)
+    result.to_csv(tables/"selected_controls.csv",index=False)
+    return result
